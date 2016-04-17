@@ -118,6 +118,33 @@ class StatisticsOnBn(StatisticsOnAn):
         return 2 * StatisticsOnAn.maj(sigma) + StatisticsOnBn.neg(sigma)
 
     @staticmethod
+    def partial_order(x1, x2):
+        """
+        return True if x1 > x2 based on the partial order, else False
+        partial order: -1 < -2 < ... < -n < ... < 0 < 1 < 2 < ... < n < ...
+        """
+        if x1 >= 0 or x2 >= 0:
+            return x1 > x2
+        elif x1 < 0 and x2 < 0:
+            return x1 < x2
+        else:
+            return x1 > 0
+
+    @staticmethod
+    @is_Bn
+    def maj_partial(sigma):
+        return sum([i + 1 for i in range(len(sigma) - 1) if StatisticsOnBn.partial_order(sigma[i], sigma[i + 1])])
+
+    @staticmethod
+    @is_Bn
+    def fmaj_partial(sigma):
+        """
+        calculate the fmaj index based on partial order:
+        -1 < -2 < ... < -n < ... < 0 < 1 < 2 < ... < n < ...
+        """
+        return 2*StatisticsOnBn.maj_partial(sigma) + StatisticsOnBn.neg(sigma)
+
+    @staticmethod
     def length(sigma):
         return StatisticsOnAn.inv(sigma) - sum([sigma[i] for i in StatisticsOnBn.Neg(sigma)])
 

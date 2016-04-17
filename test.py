@@ -55,14 +55,32 @@ def fourthExample(n=3, k=1, test_q=None):
     print rhs.subs('q', test_q) if hasattr(rhs, 'subs') else rhs
 
 
+def fourthExample_partial(n=3, k=1, test_q=None):
+    test_q = 1 if test_q is None else test_q
+
+    def ratio(j):
+        a = ((-1) ** j) * QAnalogue.qExp(2 * nCr(j, 2))
+        b = product(fun=lambda y: QAnalogue.qNumber(2 * y), start=0, end=j)
+        return a / b
+
+    lhs = QAnalogue.performStatisticsOnq(StatisticsOnBn.fmaj_partial,
+                                         Permutation.generateSignedPermutationsWithKFixedPoints(n, k))
+    rhs = product(fun=lambda x: QAnalogue.qNumber(2 * x), start=0, end=n) / \
+          product(fun=lambda x: QAnalogue.qNumber(2 * x), start=0, end=k) * \
+          summation(ratio, 0, n - k)
+    print lhs.subs('q', test_q) if hasattr(lhs, 'subs') else lhs
+    print rhs.subs('q', test_q) if hasattr(rhs, 'subs') else rhs
 
 
-print QAnalogue.performStatisticsOnq(StatisticsOnDn.length, Permutation.generate_Even_Signed_Permutation(4))
-print QAnalogue.performStatisticsOnq(StatisticsOnDn.Dmaj, Permutation.generate_Delta(4))
+fourthExample_partial(test_q=1.1)
+
+print StatisticsOnBn.fmaj_partial([2, -5, -3, -1, 4])
 
 
-secondExample(test_q=1.12)
-thirdExample(test_q=1.12)
-fourthExample(test_q=1.12)
+
+
+
+
+
 
 
