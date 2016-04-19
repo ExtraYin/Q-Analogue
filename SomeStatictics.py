@@ -93,12 +93,10 @@ class StatisticsOnAn(object):
 class StatisticsOnBn(StatisticsOnAn):
 
     @staticmethod
-    @is_Bn
     def Neg(sigma):  # TODO
         return [i for i, s in enumerate(sigma) if s < 0]
 
     @staticmethod
-    @is_Bn
     def neg(sigma):
         """
         :param sigma: permutation
@@ -108,7 +106,6 @@ class StatisticsOnBn(StatisticsOnAn):
         return len(StatisticsOnBn.Neg(sigma))
 
     @staticmethod
-    @is_Bn
     def fmaj(sigma):
         """
         :param sigma: Signed permutation
@@ -131,25 +128,26 @@ class StatisticsOnBn(StatisticsOnAn):
             return x1 > 0
 
     @staticmethod
-    @is_Bn
-    def maj_partial(sigma):
+    def Des(sigma):  # TODO
+        return [i + 1 for i in range(len(sigma) - 1) if StatisticsOnBn.partial_order(sigma[i], sigma[i + 1])]
+
+    @staticmethod
+    def major(sigma):
         return sum([i + 1 for i in range(len(sigma) - 1) if StatisticsOnBn.partial_order(sigma[i], sigma[i + 1])])
 
     @staticmethod
-    @is_Bn
-    def fmaj_partial(sigma):
+    def flag_major(sigma):
         """
         calculate the fmaj index based on partial order:
         -1 < -2 < ... < -n < ... < 0 < 1 < 2 < ... < n < ...
         """
-        return 2*StatisticsOnBn.maj_partial(sigma) + StatisticsOnBn.neg(sigma)
+        return 2*StatisticsOnBn.major(sigma) + StatisticsOnBn.neg(sigma)
 
     @staticmethod
     def length(sigma):
         return StatisticsOnAn.inv(sigma) - sum([sigma[i] for i in StatisticsOnBn.Neg(sigma)])
 
     @staticmethod
-    @is_Bn
     def nmaj(sigma):
         NDes = [i + 1 for i in range(len(sigma) - 1) if sigma[i] > sigma[i + 1]]
         NDes += [-s for s in sigma if s < 0]
@@ -160,21 +158,18 @@ class StatisticsOnBn(StatisticsOnAn):
 
 class StatisticsOnDn(StatisticsOnAn):
     @staticmethod
-    @is_Dn
     def N1(sigma):
         return StatisticsOnBn.neg(sigma)
 
     @staticmethod
-    @is_Dn
     def N2(sigma):
         N_2 = []
         for item in itertools.combinations(range(len(sigma)), 2):
             if sigma[item[0]] + sigma[item[1]] < 0:
                 N_2.append([sigma[item[0]], sigma[item[1]]])
-        return N_2
+        return len(N_2)
 
     @staticmethod
-    @is_Dn
     def Dmaj(sigma):   # TODO
         if sigma:
             sigma = list(sigma)
@@ -184,13 +179,8 @@ class StatisticsOnDn(StatisticsOnAn):
             return 0
 
     @staticmethod
-    @is_Dn
     def length(sigma):
         N_2 = StatisticsOnDn.N2(sigma)
-        return len(N_2) + StatisticsOnAn.inv(sigma)
+        return N_2 + StatisticsOnAn.inv(sigma)
 
 
-if __name__ == "__main__":
-    test0 = [3, 5, 2, 4, 1, 6]
-    test1 = [-3, 1, -6, 2, -4, -5]
-    print StatisticsOnDn.length(test1)

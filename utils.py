@@ -31,12 +31,3 @@ def nCr(n, r):
         return 0
     f = math.factorial
     return f(n) / f(r) / f(n - r)
-
-
-if __name__ == "__main__":
-    pass
-    #from q_analogue import *
-    # 2 * 4 * 6 * 8 * 10 =
-    #print product(lambda x: 2*x, 1, 5) == 3840
-    # [2]q! * [4]q! * [6]q! = (q + 1)*(q**3 + q**2 + q + 1)*(q**5 + q**4 + q**3 + q**2 + q + 1)
-    #print product(fun=lambda k: QAnalogue.qNumber(2*k), start=1, end=3)

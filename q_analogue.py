@@ -18,7 +18,8 @@ class QAnalogue(object):
         """
         :return: q-analogue of the positive integer n: [n]q = 1 + q + q^2 + ... + q^(n-1)
         """
-        assert n >= 0
+        if n < 0:
+            return 1
         if n == 0:
             return 1
         q = sympy.symbols("q")
@@ -75,12 +76,3 @@ class QAnalogue(object):
     def qExp(n):
         q = sympy.symbols("q")
         return q ** n
-
-
-if __name__ == "__main__":
-    from SomeStatictics import StatisticsOnAn, StatisticsOnBn, StatisticsOnDn
-    n = 4
-    # On group of Type-B three statistics should have the same distribution
-    print QAnalogue.performStatisticsOnq(StatisticsOnBn.fmaj, Permutation.generateSignedPermutations(n)) \
-          ==  QAnalogue.performStatisticsOnq(StatisticsOnBn.nmaj, Permutation.generateSignedPermutations(n)) \
-          == QAnalogue.performStatisticsOnq(StatisticsOnBn.length, Permutation.generateSignedPermutations(n))
