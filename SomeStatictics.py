@@ -128,7 +128,7 @@ class StatisticsOnBn(StatisticsOnAn):
             return x1 > 0
 
     @staticmethod
-    def Des(sigma):  # TODO
+    def Des_partial(sigma):  # TODO
         return [i + 1 for i in range(len(sigma) - 1) if StatisticsOnBn.partial_order(sigma[i], sigma[i + 1])]
 
     @staticmethod
